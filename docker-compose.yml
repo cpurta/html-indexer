@@ -1,0 +1,25 @@
+indexer:
+    build: .
+    links:
+        - urlqueue
+        - indexresults
+        - influxdb
+        - grafana
+    ports:
+        - "6379:6379"
+        - "8086:8086"
+        - "3308:3308"
+
+urlqueue:
+    image: redis:latest
+
+webindexdb:
+    image: mysql
+    volumes:
+        - ./docker/mysql/results.sql:/docker-entrypoint-initdb.d/00-import-data.sql
+
+influxdb:
+    image: influxdb:latest
+
+grafana:
+    image: grafana/grafana:latest
